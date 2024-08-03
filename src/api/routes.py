@@ -10,11 +10,12 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 api = Blueprint('api', __name__)
 
+
 # Allow CORS requests to this API
 CORS(api)
 
 
-@api.route('/user/signup', methods=['POST'])
+@api.route('/api/user/signup', methods=['POST'])
 def signup():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
