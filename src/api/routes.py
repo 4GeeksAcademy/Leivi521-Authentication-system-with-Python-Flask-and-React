@@ -37,6 +37,8 @@ def signup():
 
     return jsonify(response_body), 201
 
+
+
 @api.route("/user/login", methods=["POST"])
 def login():
     email = request.json.get("email", None)
@@ -52,3 +54,14 @@ def login():
 
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token=access_token), 200
+
+@api.route("/hello", methods=["GET"])
+@jwt_required()
+def get_hello():
+    
+    email = get_jwt_identity()
+    dictionary = {
+
+        "message": "hello world" + email
+    }
+    return jsonify(dictionary)
