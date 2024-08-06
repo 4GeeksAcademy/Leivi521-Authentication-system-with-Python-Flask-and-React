@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-const Login = () => {
+const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState(null);
+    const [message, setMessage] = useState(null);
 
-    const handleLoginClick = async () => {
+    const handleSignupClick = async () => {
         const opts = {
             method: "POST",
             body: JSON.stringify({ email, password }),
@@ -15,32 +15,24 @@ const Login = () => {
         };
 
         try {
-            const resp = await fetch("https://curly-space-waddle-g4xw4g5wx97gcwvr4-3001.app.github.dev/api/login", opts);
-            if (resp.status === 200) {
+            const resp = await fetch("https://curly-space-waddle-g4xw4g5wx97gcwvr4-3001.app.github.dev/api/user/signup", opts);
+            if (resp.status === 201) {
                 const data = await resp.json();
-                sessionStorage.setItem("token", data.access_token);
-                setToken(data.access_token);
+                setMessage(data.message);
             } else {
-                console.error("Login failed", resp.statusText);
+                const errorData = await resp.json();
+                setMessage(errorData.msg);
             }
-        } catch(error) {
-            console.error("There has been an error logging in", error);
+        } catch (error) {
+            console.error("There has been an error during signup", error);
         }
-    };
-
-    const handleLogoutClick = () => {
-        sessionStorage.removeItem("token");
-        setToken(null);
     };
 
     return (
         <div className="text-center mt-5">
-            <h1>Login</h1>
-            {token ? (
-                <div>
-                    <div>"You are logged in with this token" {token}</div>
-                    <button onClick={handleLogoutClick}>Logout</button>
-                </div>
+            <h1>Signup</h1>
+            {message ? (
+                <div>{message}</div>
             ) : (
                 <div>
                     <input
@@ -55,11 +47,11 @@ const Login = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button onClick={handleLoginClick}>Login</button>
+                    <button onClick={handleSignupClick}>Signup</button>
                 </div>
             )}
         </div>
     );
 };
 
-export default Login;
+export default Signup;
