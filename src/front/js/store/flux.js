@@ -49,9 +49,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
-			Login: async(email,password) => {
+			login: async(email,password) => {
 				const opts = {
-					Method: 'POST',
+					method: 'POST',
 					body: JSON.stringify({
 						"email": email,
 						"password": password,
@@ -59,11 +59,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"content-type": "application/json"
 						},
 					})
-		
-		
-		
 				}
-					const resp = await fetch("https://laughing-barnacle-g4xw4g5wxg5w2pp6j-3001.app.github.dev/user/login", opts)
+					const resp = await fetch("https://laughing-barnacle-g4xw4g5wxg5w2pp6j-3001.app.github.dev/login", opts)
 						if(resp.status !== 200) {
 
 

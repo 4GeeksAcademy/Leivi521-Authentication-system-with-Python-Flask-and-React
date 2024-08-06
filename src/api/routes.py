@@ -39,18 +39,17 @@ def signup():
 
 
 
-@api.route("/user/login", methods=["POST"])
+@api.route('/login', methods=['POST'])
 def login():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    if email is None  or password is None:
-        return jsonify({"msg": "please provide password and email"}), 400
-    user = User.query.filter_by(email = email).first()
-    if user is None: 
-        return jsonify({"msg": "This account does not exsits"}), 404
-    if user.password != password:
-        return jsonify({"msg": "The password provide does not match out records"}), 401
-    
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
+    if email is None or password is None:
+        return jsonify({"msg": "Please provide password and email"}), 400
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({"msg": "This account does not exist"}), 404
+    if user.password != password: 
+        return jsonify({"msg": "The password provided does not match our records"}), 401
 
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token=access_token), 200
